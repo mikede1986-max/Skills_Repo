@@ -50,6 +50,13 @@ Skills_Repo/
     │   └── scripts/
     │       ├── director.py
     │       └── minimax_engine_bootstrap.py
+    ├── qwen-image-director/                 # Qwen-Image-2.1 多模态图像生成与编辑导演
+    │   ├── SKILL.md
+    │   ├── notebooks/
+    │   │   └── qwen_image_engine.ipynb
+    │   └── scripts/
+    │       ├── director.py
+    │       └── qwen_image_bootstrap.py
     └── reverse-engineer-anything/           # 全平台逆向工程套件 (REA)
         ├── SKILL.md
         └── references/
@@ -76,6 +83,7 @@ Skills_Repo/
 | 6 | **`grilling`** | `skills/grilling` | **方案深度追问与压力测试**：采用“设计决策树”机制对产品方案、技术决策进行结构化反问与边界推演，消除前期模糊假设。 |
 | 7 | **`grill-with-docs`** | `skills/grill-with-docs` | **追问与文档联动**：将 `grilling` 压力测试与 `domain-modeling` 产出物结合，边追问边落盘 ADR 与术语表（手动触发工作流）。 |
 | 8 | **`handoff`** | `skills/handoff` | **智能会话交接生成**：自动从长会话中提炼关键结论、未结事项与代码线索，生成结构化交接文档，便于新会话或另一 Agent 无缝续作。 |
+| 9 | **`qwen-image-director`** | `skills/qwen-image-director` | **Qwen-Image-2.1 图像生成导演**：在 Colab A100 GPU 上调度 Qwen-Image-2.1 大模型，支持高清文生图 (T2I)、参考图条件编辑 (I2I)、原生透明通道 (RGBA) 生成与推理元数据自动化下载。 |
 
 ---
 
