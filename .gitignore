@@ -1,0 +1,30 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Temporary and log files
+*.log
+*.tmp
+*.temp
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Output / generated assets
+outputs/
+runs/
+*.mp4
+*.avi
+*.mov
+
+# Virtual environments
+.venv/
+env/
+venv/
+ENV/

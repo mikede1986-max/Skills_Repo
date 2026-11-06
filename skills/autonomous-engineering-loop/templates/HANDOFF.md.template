@@ -1,0 +1,19 @@
+# HANDOFF — {{PROJECT_NAME}} 交接台账
+
+> 最新记录置顶。每条必含：**决定 / 证据指针 / 测试结果 / NOT_RUN 清单**。
+> 超过约 50 条时把最旧的一半移入 `docs/execution/archive/HANDOFF-ARCHIVE-<n>.md`。
+> 任何角色接手任务第一步：读 AGENTS → WORKFLOW → 本文件最新记录 → 相关文档 → git 状态。
+
+---
+
+<!-- 新记录模板（复制后填写，删掉本注释）：
+
+# HANDOFF — <一句话主题> — <日期>
+
+- **决定**：<谁决定了什么；HUMAN 决定注明转达方式（CALLER_ATTESTED/原话）>
+- **证据**：<文件:行 / 测试输出位置 / commit SHA>
+- **测试**：<逐套件数字，如 单元 45 passed / 集成 12 passed / e2e 3 passed；失败贴输出摘要>
+- **治理同步**：<WORKFLOW 哪些字段更新、CR/任务状态变化>
+- **NOT_RUN**：<本轮未运行项与原因（无则写 NONE）>
+
+-->

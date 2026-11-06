@@ -1,0 +1,41 @@
+# EXPERT-EXEC-{{EXEC_ID}} — {{升级目标一句话}}（专家升级编码授权书）
+
+> **双条件缺一不可**：本文件完整存在 **且** `.ai/WORKFLOW.yaml` 当前 `next_actor: EXPERT`，EXPERT 方可修改代码。
+> 本授权**一次性**：目标达成、BLOCKED 或超预算即失效；完成后由 ARCHITECT 独立审查，EXPERT 不得自批。
+
+日期：{{DATE}}。Issuer：ARCHITECT。Implementer：EXPERT。
+工作项：{{WORK_ITEM_ID}}。升级原因：{{IMPLEMENTER 预算耗尽的根因摘要 / 疑难问题描述}}。
+
+## 1. 目标（Objective）
+
+{{要修复/实现什么；完成判据}}
+
+## 2. 业务需求与依据
+
+- 需求：{{REQ 编号与相关条目}}
+- 决策依据：{{BDR / ADR / TD / CR 编号}}
+
+## 3. 基线与分支
+
+- 基线 commit：{{SHA}}；目标分支：`{{BRANCH}}`
+- 继承 dirty 树：{{清单或"无"}}——全部保留
+
+## 4. 允许改动（白名单）与禁止事项
+
+- 允许：{{文件/层次清单}}
+- 禁止：{{冻结面/环境/数据/依赖/测试期望不可放宽等}}
+
+## 5. 必跑测试与验收标准
+
+- 必跑：{{套件清单}}
+- 验收：{{可核对条目，含回归要求}}
+
+## 6. 预算与停止条件
+
+专家修复 **1 轮**（如 WORKFLOW `budgets` 已登记 terminal 授权则按其轮数）。开始前须书面给出：既往失败证据、本轮根因假设、最小验证方式。不收敛 → 终止并落 BLOCKED 记录，不开新修补轮、不申请扩权（业务语义必须变更时除外）。
+
+## 7. 完成后动作
+
+1. 停止一切写入，交回 ORCHESTRATOR。
+2. WORKFLOW：`next_actor` → ARCHITECT，stage → CODE_REVIEW。
+3. 产出结构化实施报告（同 TASK-RELEASE §8 格式）+ NOT_RUN 清单。

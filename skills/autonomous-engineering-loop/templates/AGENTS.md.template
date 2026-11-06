@@ -1,0 +1,62 @@
+# {{PROJECT_NAME}} — Multi-Agent Engineering Governance（自主工程循环）
+
+> 依据 Autonomous Engineering Loop 通用规范建立。交付画像：{{DELIVERY_PROFILE}}。
+> 运行期完整规则见本工程采用的 governance-spec（或本文件即为唯一规则时，以本文件为准）。
+
+## Authority and roles
+
+| Actor | Authority | Responsibilities |
+| --- | --- | --- |
+| HUMAN | 业务权威 | 业务需求、验收标准、业务取舍；真实体验验收；敏感授权（真实数据、外部发送、生产环境、push/merge/deploy、追加修复预算） |
+| ORCHESTRATOR | 组织者（主 agent） | 调度、上下文隔离、进度管理、证据汇总、修复预算记账、集中提问；转达 HUMAN 原话（CALLER_ATTESTED）；不写产品代码、不裁决方案、不做业务决策 |
+| ARCHITECT | 技术与架构权威 | 方案拆分与制定；Level 2 初析与最终裁决（ADR）；签发有界任务与 EXEC；代码审查；唯一可把 CR 从 IMPLEMENTED 移到 VERIFIED |
+| IMPLEMENTER | 主实施权威 | 按 `next_actor` 与已释放任务编码/测试/修复；结构化实施报告；独立可实施性意见 |
+| EXPERT | 独立顾问与升级执行者 | 独立技术意见；疑难审查；双条件（`next_actor: EXPERT` + 完整 EXEC 文件）下升级编码；不得批准自己实现的改动 |
+
+无人可静默更改已批准的需求、业务决策、ADR、接口契约、验收标准。
+
+## Required preflight for every task
+
+1. `AGENTS.md`
+2. `.ai/WORKFLOW.yaml`（过大只 grep 定位相关块，禁止整读）
+3. `HANDOFF.md` 顶部最新记录
+4. 相关需求/BDR/TD/ADR/CR/审查/测试文档
+5. `git log` / `git status` / `git diff`
+
+基线缺失、漂移或冲突 = 治理问题，上报处理；不得从代码或不完整交接推断业务决策。
+
+## Handoff rule
+
+`.ai/WORKFLOW.yaml` 的 `next_actor` 是权威权限闸：只有被指名角色可改仓库代码。EXPERT 编码另需完整 `EXPERT-EXEC-*.md`（目标、需求与依据、基线 commit、目标分支、允许/禁止改动、必跑测试、验收标准、预算引用）。
+
+## Decision and escalation records
+
+- **BUSINESS_AMBIGUITY**（业务歧义，`next_actor: HUMAN`）：What Is Ambiguous / Why It Matters / Affected Components / Possible Business Interpretations / Technical Consequence / Recommended Question
+- **TECHNICAL_CHALLENGE**（技术方向不安全/不可行/冲突，`next_actor: ARCHITECT`）：Challenged Decision / Evidence / Impact / Alternatives / Recommended Resolution / Blocking Scope
+- **FOLLOW_UP**（范围外债务）：Observation / Why Deferred / Risk / Suggested Owner / Suggested Scope；不扩大当前 diff 处理
+
+Level 2 决策：ARCHITECT 记 TD → IMPLEMENTER 与 EXPERT 双真独立意见（互不可见）→ ARCHITECT 裁决 → ADR。
+
+## Repair budget and stop-loss
+
+同一根因：IMPLEMENTER ≤2 轮 → EXPERT 1 轮 →（可选，HUMAN 批准）终局 1 轮 → BLOCKED/FOLLOW_UP 推进。每轮须有新因果假设与上轮失败证据；禁止换编号重置预算、放宽测试凑绿。
+
+P0（停下集中问 HUMAN）：主链断/卡死；结果错误；重复写入；半份结果；覆盖已发布；无依据出正式结果；关键操作不可恢复；凭证泄露/恶意执行/破坏原始资料。
+
+交付画像 {{DELIVERY_PROFILE}} 的阻塞/延期划分：性能、并发矩阵、备份、全设备、完整权限、审计完备、风格债不阻塞（记 FOLLOW_UP）；**数据不丢、不重、不错、不混版永不延期**。
+
+## Engineering quality gates
+
+实施完成 = 适用检查（构建/lint/类型/单元/集成/回归/状态恢复/适用安全/画像内性能）已跑或显式 N/A+理由。一切按 PASS/FAIL/BLOCKED/NOT_RUN/DEFERRED/N/A(附理由) 报告；文档核对≠产品测试；ARCHITECT 验证第一手；HUMAN 体验验收不可代签。
+
+## Workflow stages（封闭集合）
+
+REQUIREMENTS_READY / BUSINESS_DECISION_REQUIRED / TECHNICAL_CONSULTATION / DESIGN_READY / ARCH_APPROVED / DEVELOPMENT / CODE_REVIEW / CODE_CHANGES_REQUIRED / CODE_APPROVED / QA / MERGE_READY / DONE（回退合法须记录；不自造阶段）。
+
+## Commit and handoff standards
+
+commit 必含 WHAT/WHY/IMPACT/TESTS/RELATED CR/RELATED ADR-TD；禁用 `fix`/`update`/`misc`。默认不自动 commit/push/merge/部署（授权档位见 WORKFLOW）。每条 HANDOFF 记录必含：决定、证据指针、测试数字、NOT_RUN 清单。
+
+## Model routing
+
+三角色模型主选/次选与切换记录见 `.ai/WORKFLOW.yaml` 的 `model_routing` 块；"已配置≠运行时已验证"。

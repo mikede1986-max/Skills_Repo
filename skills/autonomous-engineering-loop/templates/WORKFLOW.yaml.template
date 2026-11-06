@@ -1,0 +1,56 @@
+# {{PROJECT_NAME}} — WORKFLOW（SSOT：只记当前态；历史入 HANDOFF/docs；本文件 ≤300 行，超限归档）
+schemaVersion: 1
+
+project:
+  id: "{{PROJECT_ID}}"
+  name: "{{PROJECT_NAME}}"
+  delivery_profile: "{{DELIVERY_PROFILE}}"   # personal | shared
+  governance: "Autonomous Engineering Loop v1.0"
+
+# ---- 当前聚焦工作项（同时只聚焦一个；切换时旧项移入 paused_work_items 或完结） ----
+focus:
+  work_item: "{{WORK_ITEM_ID}}"              # 如 WI-001
+  title: "{{WORK_ITEM_TITLE}}"
+  stage: "REQUIREMENTS_READY"                # 封闭集合见 AGENTS.md
+  stage_history: []                          # 追加式，≤20 项，更早的移入 execution 归档
+  next_actor: "HUMAN"                        # HUMAN | ORCHESTRATOR | ARCHITECT | IMPLEMENTER | EXPERT
+  active_task: null                          # 当前活跃任务书路径（docs/execution/<工作项>/TASK-*.md）
+  active_cr: null                            # 关联 CR 路径
+  requirement: null                          # docs/requirements/REQ-*.md
+
+# ---- 修复预算（规范 §9；按工作项/问题登记，禁止换编号重置） ----
+budgets:
+  defaults: { implementer_rounds: 2, expert_rounds: 1, terminal_rounds: 0 }  # terminal 仅 HUMAN 批准后置 1
+  active_issues: []                          # [{issue_id, root_cause_hint, implementer_used, expert_used, terminal_used, status: OPEN|ESCALATED|BLOCKED|RESOLVED}]
+
+# ---- 模型路由（策略 SSOT；frontmatter 只放当前生效值） ----
+model_routing:
+  architect:
+    primary: { model: "{{ARCHITECT_MODEL}}", thoughtLevel: "{{ARCHITECT_LEVEL}}" }
+    fallback: null                           # { model, thoughtLevel } 或 null
+    current: "{{ARCHITECT_MODEL}}"
+    status: "CONFIGURED"                     # CONFIGURED | VERIFIED | DEGRADED
+    switch_history: []                       # [{date, from, to, reason}]
+  implementer:
+    primary: { model: "{{IMPLEMENTER_MODEL}}", thoughtLevel: "{{IMPLEMENTER_LEVEL}}" }
+    fallback: null
+    current: "{{IMPLEMENTER_MODEL}}"
+    status: "CONFIGURED"
+    switch_history: []
+  expert:
+    primary: { model: "{{EXPERT_MODEL}}", thoughtLevel: "{{EXPERT_LEVEL}}" }
+    fallback: null
+    current: "{{EXPERT_MODEL}}"
+    status: "CONFIGURED"
+    switch_history: []
+
+# ---- 版本控制授权档位 ----
+version_control:
+  commit_policy: "BATCH_REQUEST_ONLY"        # BATCH_REQUEST_ONLY | AUTO_COMMIT_NO_PUSH | MANUAL
+  push_merge_deploy: "NONE_UNTIL_HUMAN_APPROVES"
+
+# ---- 暂停/完结工作项（指针即可，细节入 docs/execution/） ----
+paused_work_items: []                        # [{id, paused_on, stage_at_pause, next_actor_at_pause, resume_policy}]
+completed_work_items: []                     # [{id, completed_on, result_pointer}]
+
+updated_at: "{{DATE}}"
